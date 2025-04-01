@@ -5,6 +5,7 @@ import dev.domenicozagaria.ecommerce.dao.entity.ClienteEntity;
 import dev.domenicozagaria.ecommerce.dao.repository.ClienteRepository;
 import dev.domenicozagaria.ecommerce.exception.ClientePresentException;
 import jakarta.annotation.Nullable;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
@@ -16,13 +17,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
+@RequiredArgsConstructor
 public class ClienteService {
 
     private final ClienteRepository repository;
-
-    public ClienteService(ClienteRepository repository) {
-        this.repository = repository;
-    }
 
     public ClienteDTO insertCliente(ClienteDTO body) {
         repository.findByCodiceFiscaleOrEmail(body.codiceFiscale(), body.email())

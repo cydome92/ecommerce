@@ -3,6 +3,7 @@ package dev.domenicozagaria.ecommerce.controller.v1;
 import dev.domenicozagaria.ecommerce.dao.dto.ClienteDTO;
 import dev.domenicozagaria.ecommerce.service.ClienteService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -15,13 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("v1/clienti")
+@RequiredArgsConstructor
 public class ClienteController {
 
     private final ClienteService service;
-
-    public ClienteController(ClienteService service) {
-        this.service = service;
-    }
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
