@@ -1,10 +1,16 @@
 services:
   mysql:
-    image: 'mysql:latest'
+    image: mysql:8.4
+    restart: always
     environment:
-      - 'MYSQL_DATABASE=mydatabase'
-      - 'MYSQL_PASSWORD=secret'
-      - 'MYSQL_ROOT_PASSWORD=verysecret'
-      - 'MYSQL_USER=myuser'
+      - MYSQL_DATABASE=ecommerce-4-euris
+      - MYSQL_PASSWORD=psw
+      - MYSQL_ROOT_PASSWORD=psw
+      - MYSQL_USER=user
     ports:
-      - '3306'
+      - '3306:3306'
+    volumes:
+      - mysql:/var/lib/mysql
+
+volumes:
+  mysql:
