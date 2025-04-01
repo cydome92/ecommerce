@@ -1,17 +1,18 @@
 package dev.domenicozagaria.ecommerce.dao.entity;
 
 import dev.domenicozagaria.ecommerce.dao.dto.OrdineDTO;
+import dev.domenicozagaria.ecommerce.dao.dto.ProdottoDTO;
 import dev.domenicozagaria.ecommerce.dao.enumeration.StatoOrdine;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,13 +42,8 @@ public class OrdineEntity {
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private ClienteEntity cliente;
-    @ManyToMany
-    @JoinTable(
-            name = "ordini_prodotti",
-            joinColumns = {@JoinColumn(name = "id_ordine")},
-            inverseJoinColumns = {@JoinColumn(name = "id_prodotto")}
-    )
-    private List<ProdottoEntity> prodotti;
+    @OneToMany(mappedBy = "ordine", fetch = FetchType.LAZY) //TODO qua con Entity Graph
+    private List<OrdineProdottoEntity> prodotti;
 
     public OrdineDTO toDto() {
         return new OrdineDTO(
@@ -55,7 +51,15 @@ public class OrdineEntity {
                 statoOrdine,
                 cliente.toDto(),
                 prodotti.stream()
-                        .map(ProdottoEntity::toDto)
+                        .map(p -> {
+                            var prodotto = p.getProdotto();
+                            return new ProdottoDTO(
+                                    prodotto.getId(),
+                                    prodotto.getCodice(),
+                                    prodotto.getNome(),
+                                    p.getQuantita()
+                            );
+                        })
                         .toList(),
                 dataOraInserimento
         );

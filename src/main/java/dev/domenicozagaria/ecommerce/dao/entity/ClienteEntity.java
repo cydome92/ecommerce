@@ -11,8 +11,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "clienti")
@@ -32,9 +34,11 @@ public class ClienteEntity {
     private LocalDate dataNascita;
     @Column(nullable = false, unique = true)
     private String email;
+    @CreationTimestamp
+    private LocalDateTime dataOraIscrizione;
 
     public ClienteDTO toDto() {
-        return new ClienteDTO(id, codiceFiscale, cognome, dataNascita, email);
+        return new ClienteDTO(id, codiceFiscale, cognome, dataNascita, email, dataOraIscrizione);
     }
 
 }

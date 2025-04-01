@@ -7,6 +7,6 @@ public record ProdottoDTO(
         int id,
         @NotNull String codice,
         @NotNull String nome,
-        @PositiveOrZero int stock
+        @PositiveOrZero int quantita
 ) {
 }
