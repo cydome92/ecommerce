@@ -19,6 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -85,6 +87,8 @@ public class OrdineService {
         OrdineEntity ordine = ordineRepository.findById(ordineId)
                 .orElseThrow(OrdineNotFoundException::new);
         ordine.setStatoOrdine(statoOrdine);
+        if (statoOrdine.equals(StatoOrdine.CONSEGNATO))
+            ordine.setDataOraConsegna(LocalDateTime.now(ZoneId.of("Europe/Rome")));
         ordineRepository.save(ordine);
     }
 

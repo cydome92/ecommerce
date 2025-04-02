@@ -39,6 +39,7 @@ public class OrdineEntity {
     private int id;
     @CreationTimestamp(source = SourceType.VM)
     private LocalDateTime dataOraInserimento;
+    private LocalDateTime dataOraConsegna;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatoOrdine statoOrdine;
