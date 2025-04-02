@@ -44,7 +44,8 @@ public class OrdineService {
                 .collect(Collectors.toSet());
         List<ProdottoEntity> prodotti = prodottoService.getProdottiByIds(prodottiIds);
         Map<Integer, Integer> mapIdProdottoQuantitaScelta = prodottiDto.stream()
-                .collect(Collectors.toMap(ProdottoDTO::id, ProdottoDTO::quantita));
+                .collect(Collectors.toMap(ProdottoDTO::id, ProdottoDTO::quantita,
+                        Integer::sum));
         Map<Integer, Integer> mapIdProdottoStockResiduo = prodotti.stream()
                 .collect(Collectors.toMap(ProdottoEntity::getId, ProdottoEntity::getStock));
         OrdineEntity ordine = new OrdineEntity();
