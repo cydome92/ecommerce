@@ -2,7 +2,11 @@
 
 ## Requisiti
 
-Per avviare il servizio in locale, assicurati di avere installato Docker, Docker Compose, Maven e Java (JDK 21 o superiore).
+Per avviare il servizio in locale, è necessario siano installati:
+* Docker 
+* Docker Compose 
+* Maven 
+* Java (JDK 21 o superiore).
 
 ## Profili
 Sono stati dichiarati e utilizzati due profili:
@@ -37,7 +41,7 @@ Il server espone le API sulla porta 18080 (configurabile nel file [application-d
 ## Containerizzazione
 * **Dockerfile**: è possibile effettuare il build del micro-servizio utilizzando docker: il [Dockerfile](Dockerfile) è impostato per il build con 
 profilo ***prod***.
-* eseguire il maven clean package del progetto
+* eseguire il maven clean package del progetto tramite IDE (per lo sviluppo è stato utilizzato IntelliJIdea)
 * eseguire i comandi:
 * ```bash 
   docker build -t <nome>:<versione> . 
