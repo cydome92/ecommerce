@@ -20,7 +20,7 @@ import lombok.Setter;
 public class OrdineProdottoEntity {
 
     @EmbeddedId
-    private OrdineProdottoId id;
+    private OrdineProdottoId id = new OrdineProdottoId();   //così hibernate fa il set in automatico
 
     @ManyToOne
     @MapsId("idOrdine")

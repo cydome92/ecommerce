@@ -3,6 +3,8 @@ package dev.domenicozagaria.ecommerce.dao.entity;
 import dev.domenicozagaria.ecommerce.dao.dto.OrdineDTO;
 import dev.domenicozagaria.ecommerce.dao.dto.ProdottoDTO;
 import dev.domenicozagaria.ecommerce.dao.enumeration.StatoOrdine;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -38,11 +40,12 @@ public class OrdineEntity {
     @CreationTimestamp(source = SourceType.VM)
     private LocalDateTime dataOraInserimento;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private StatoOrdine statoOrdine;
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private ClienteEntity cliente;
-    @OneToMany(mappedBy = "ordine", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "ordine", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<OrdineProdottoEntity> prodotti;
 
     public OrdineDTO toDto() {
