@@ -29,6 +29,7 @@ public class ClienteEntity {
     private Integer id;
     @Column(nullable = false, unique = true)
     private String codiceFiscale;
+    private String nome;
     private String cognome;
     @Column(nullable = false)
     private LocalDate dataNascita;
@@ -38,7 +39,7 @@ public class ClienteEntity {
     private LocalDateTime dataOraIscrizione;
 
     public ClienteDTO toDto() {
-        return new ClienteDTO(id, codiceFiscale, cognome, dataNascita, email, dataOraIscrizione);
+        return new ClienteDTO(id, codiceFiscale, nome, cognome, dataNascita, email, dataOraIscrizione);
     }
 
 }

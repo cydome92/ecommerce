@@ -24,7 +24,7 @@ public class ProdottoEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column(nullable = false, unique = true)
-    private String codice;
+    private String codice;  //inserito come non come primary key in quanto potrebbe appartenere a più categorie di codici a barre, con diversa formattazione
     @Column(unique = true)
     private String nome;
     private int stock;

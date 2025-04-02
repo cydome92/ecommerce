@@ -4,8 +4,8 @@ import dev.domenicozagaria.ecommerce.dao.dto.ProdottoDTO;
 import dev.domenicozagaria.ecommerce.service.ProdottoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +27,7 @@ public class ProdottoController {
     }
 
     @PostMapping("search")
-    public Page<ProdottoDTO> searchProdotti(@RequestBody(required = false) ProdottoDTO exampleBody, Pageable pageable) {
+    public PagedModel<ProdottoDTO> searchProdotti(@RequestBody(required = false) ProdottoDTO exampleBody, Pageable pageable) {
         return service.searchProdotti(exampleBody, pageable);
     }
 

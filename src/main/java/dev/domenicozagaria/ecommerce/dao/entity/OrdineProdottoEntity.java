@@ -23,11 +23,11 @@ public class OrdineProdottoEntity {
     private OrdineProdottoId id;
 
     @ManyToOne
-    @MapsId("id_ordine")
+    @MapsId("idOrdine")
     private OrdineEntity ordine;
 
     @ManyToOne
-    @MapsId("id_prodotto")
+    @MapsId("idProdotto")
     private ProdottoEntity prodotto;
 
     private int quantita;

@@ -6,17 +6,19 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.web.PagedModel;
 
 import java.util.function.Function;
 
 public class PaginationUtils {
 
-    public static <T, E, K, R extends JpaRepository<E, K>> Page<T> searchFromRepository(Example<E> exampleBody,
-                                                                                        Pageable pageRequest,
-                                                                                        R repository,
-                                                                                        Function<E, T> toDtoFunction,
-                                                                                        Sort.Direction sortDirection,
-                                                                                        String... fieldsDefaultSort) {
+    //PagedModel mi veniva suggerito a runtime
+    public static <T, E, K, R extends JpaRepository<E, K>> PagedModel<T> searchFromRepository(Example<E> exampleBody,
+                                                                                              Pageable pageRequest,
+                                                                                              R repository,
+                                                                                              Function<E, T> toDtoFunction,
+                                                                                              Sort.Direction sortDirection,
+                                                                                              String... fieldsDefaultSort) {
         Sort sort = pageRequest.getSortOr(Sort.by(sortDirection, fieldsDefaultSort));
         Pageable pageable = PageRequest.of(pageRequest.getPageNumber(), pageRequest.getPageSize(), sort);
         Page<T> rs;
@@ -27,7 +29,7 @@ public class PaginationUtils {
             rs = repository.findAll(exampleBody, pageable)
                     .map(toDtoFunction);
         }
-        return rs;
+        return new PagedModel<>(rs);
     }
 
 }

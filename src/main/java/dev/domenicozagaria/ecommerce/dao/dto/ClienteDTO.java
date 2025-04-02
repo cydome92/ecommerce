@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public record ClienteDTO(
         int id,
         @Size(min = 16, max = 16) String codiceFiscale,
+        String nome,
         String cognome,
         @Past LocalDate dataNascita,
         @Email String email,

@@ -5,14 +5,15 @@ import dev.domenicozagaria.ecommerce.dao.entity.ProdottoEntity;
 import dev.domenicozagaria.ecommerce.dao.repository.ProdottoRepository;
 import dev.domenicozagaria.ecommerce.exception.CodiceProdottoExistsException;
 import dev.domenicozagaria.ecommerce.exception.ProdottoNotFoundException;
+import dev.domenicozagaria.ecommerce.exception.QuantitaExceedStockException;
 import dev.domenicozagaria.ecommerce.service.utils.PaginationUtils;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class ProdottoService {
                 .toDto();
     }
 
-    public Page<ProdottoDTO> searchProdotti(@Nullable ProdottoDTO body, Pageable pageRequest) {
+    public PagedModel<ProdottoDTO> searchProdotti(@Nullable ProdottoDTO body, Pageable pageRequest) {
         ProdottoEntity entity = new ProdottoEntity();
         Example<ProdottoEntity> example = null;
         if (body != null) {
@@ -66,6 +67,8 @@ public class ProdottoService {
         for (ProdottoEntity p : prodotti) {
             int stock = p.getStock();
             int bought = mapIdProdottoQuantitaScelta.get(p.getId());
+            if (bought > stock)
+                throw new QuantitaExceedStockException();
             p.setStock(stock - bought);
         }
         repository.saveAllAndFlush(prodotti);
