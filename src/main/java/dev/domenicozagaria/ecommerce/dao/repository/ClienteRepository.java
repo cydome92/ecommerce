@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface ClienteRepository extends JpaRepository<ClienteEntity, Integer> {
 
-    Optional<ClienteEntity> findByCodiceFiscaleOrEmail(String codiceFiscale, String email);
+    Optional<ClienteEntity> findFirstByCodiceFiscaleOrEmail(String codiceFiscale, String email);
 
 }

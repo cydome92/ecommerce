@@ -42,7 +42,7 @@ public class OrdineEntity {
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private ClienteEntity cliente;
-    @OneToMany(mappedBy = "ordine", fetch = FetchType.LAZY) //TODO qua con Entity Graph
+    @OneToMany(mappedBy = "ordine", fetch = FetchType.LAZY)
     private List<OrdineProdottoEntity> prodotti;
 
     public OrdineDTO toDto() {

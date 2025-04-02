@@ -1,7 +1,7 @@
 package dev.domenicozagaria.ecommerce.controller.v1;
 
-import dev.domenicozagaria.ecommerce.dao.dto.ClienteDTO;
-import dev.domenicozagaria.ecommerce.service.ClienteService;
+import dev.domenicozagaria.ecommerce.dao.dto.ProdottoDTO;
+import dev.domenicozagaria.ecommerce.service.ProdottoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,21 +14,21 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("v1/clienti")
+@RequestMapping("v1/prodotti")
 @RequiredArgsConstructor
-public class ClienteController {
+public class ProdottoController {
 
-    private final ClienteService service;
+    private final ProdottoService service;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ClienteDTO insertCliente(@RequestBody @Valid ClienteDTO body) {
-        return service.insertCliente(body);
+    public ProdottoDTO insertProdotto(@RequestBody @Valid ProdottoDTO body) {
+        return service.insertProdotto(body);
     }
 
     @PostMapping("search")
-    public Page<ClienteDTO> searchClienti(@RequestBody(required = false) ClienteDTO body, Pageable pageable) {
-        return service.searchCliente(body, pageable);
+    public Page<ProdottoDTO> searchProdotti(@RequestBody(required = false) ProdottoDTO exampleBody, Pageable pageable) {
+        return service.searchProdotti(exampleBody, pageable);
     }
 
 }
