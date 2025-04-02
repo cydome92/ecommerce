@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -33,7 +34,7 @@ public class OrdineController {
     }
 
     @PostMapping("search")
-    public Page<OrdineDTO> searchOrdini(@RequestBody(required = false) ClienteDTO cliente, Pageable pageable) {
+    public PagedModel<OrdineDTO> searchOrdini(@RequestBody(required = false) ClienteDTO cliente, Pageable pageable) {
         return ordineService.searchOrdiniByClienteExample(cliente, pageable);
     }
 

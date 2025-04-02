@@ -16,6 +16,7 @@ import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,7 +72,7 @@ public class OrdineService {
         return saved.toDto();
     }
 
-    public Page<OrdineDTO> searchOrdiniByClienteExample(@Nullable ClienteDTO body, Pageable pageable) {
+    public PagedModel<OrdineDTO> searchOrdiniByClienteExample(@Nullable ClienteDTO body, Pageable pageable) {
         Page<OrdineEntity> ordini = null;
         if (body != null) {
             Set<Integer> clientiIds = clienteService.searchCliente(body, pageable).getContent().stream()
@@ -81,7 +82,7 @@ public class OrdineService {
         } else {
             ordini = ordineRepository.findAllBy(pageable);
         }
-        return ordini.map(OrdineEntity::toDto);
+        return new PagedModel<>(ordini.map(OrdineEntity::toDto));
     }
 
     public void updateStatoOrdine(int ordineId, StatoOrdine statoOrdine) {
