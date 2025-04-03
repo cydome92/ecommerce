@@ -6,14 +6,11 @@ import dev.domenicozagaria.ecommerce.dao.dto.ClienteDTO;
 import dev.domenicozagaria.ecommerce.dao.dto.OrdineDTO;
 import dev.domenicozagaria.ecommerce.dao.dto.ProdottoDTO;
 import dev.domenicozagaria.ecommerce.dao.entity.ClienteEntity;
-import dev.domenicozagaria.ecommerce.dao.entity.OrdineEntity;
 import dev.domenicozagaria.ecommerce.dao.entity.ProdottoEntity;
 import dev.domenicozagaria.ecommerce.dao.enumeration.StatoOrdine;
 import dev.domenicozagaria.ecommerce.dao.repository.ClienteRepository;
 import dev.domenicozagaria.ecommerce.dao.repository.OrdineRepository;
 import dev.domenicozagaria.ecommerce.dao.repository.ProdottoRepository;
-import dev.domenicozagaria.ecommerce.exception.OrdineNotFoundException;
-import dev.domenicozagaria.ecommerce.exception.ProdottoNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Import(TestcontainersConfiguration.class)
-public class OrdineIntegrationTest {
+public class OrdineIntegrationTestIT {
 
     @Autowired
     MockMvc mvc;

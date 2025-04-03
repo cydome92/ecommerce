@@ -6,6 +6,7 @@ import dev.domenicozagaria.ecommerce.dao.dto.ProdottoDTO;
 import dev.domenicozagaria.ecommerce.dao.entity.ProdottoEntity;
 import dev.domenicozagaria.ecommerce.dao.repository.ProdottoRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Import(TestcontainersConfiguration.class)
-public class ProdottoIntegrationTest {
+public class ProdottoIntegrationTestIT {
 
     @Autowired
     MockMvc mvc;
@@ -33,6 +34,11 @@ public class ProdottoIntegrationTest {
     ProdottoRepository repository;
 
     final String basePath = "/v1/prodotti";
+
+    @BeforeEach
+    void initializeDb() {
+        repository.deleteAll();
+    }
 
     @AfterEach
     void deleteDbContent() {

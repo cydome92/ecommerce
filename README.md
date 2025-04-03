@@ -45,7 +45,10 @@ Il server espone le API sulla porta 18080 (configurabile nel file [application-d
 ## Containerizzazione
 * **Dockerfile**: è possibile effettuare il build del micro-servizio utilizzando docker: il [Dockerfile](Dockerfile) è impostato per il build con 
 profilo ***prod***.
-* eseguire il maven clean package del progetto tramite IDE (per lo sviluppo è stato utilizzato IntelliJIdea)
+* eseguire il maven clean package verify del progetto tramite IDE (per lo sviluppo è stato utilizzato IntelliJIdea)
+  * ***clean***: ripulisce la cartella ***target***
+  * ***package***: esegue unit test
+  * ***verify***: esegue integration test e genera lo swagger in locale nella cartella [api-docs](api-docs) in formato yaml
 * eseguire i comandi:
 * ```bash 
   docker build -t <nome>:<versione> . 
