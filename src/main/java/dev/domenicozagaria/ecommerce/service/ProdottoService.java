@@ -68,7 +68,7 @@ public class ProdottoService {
     }
 
     @Transactional
-    public void readdStock(Map<Integer, Integer> mapIdProdottoQuantitaScelta, List<ProdottoEntity> prodotti) {
+    public void updateStockAfterOrdine(Map<Integer, Integer> mapIdProdottoQuantitaScelta, List<ProdottoEntity> prodotti) {
         for (ProdottoEntity p : prodotti) {
             int stock = p.getStock();
             int bought = mapIdProdottoQuantitaScelta.get(p.getId());

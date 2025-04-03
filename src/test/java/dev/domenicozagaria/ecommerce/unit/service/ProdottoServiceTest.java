@@ -101,7 +101,7 @@ class ProdottoServiceTest {
     void updateStock_quantitaExceedsStockThrowsError() {
         Map<Integer, Integer> mapIdProdottoQuantita = Map.of(1, 10);
         var prodotto = new ProdottoEntity(1, null, null, 9);
-        assertThrows(QuantitaExceedStockException.class, () -> service.readdStock(mapIdProdottoQuantita, List.of(prodotto)));
+        assertThrows(QuantitaExceedStockException.class, () -> service.updateStockAfterOrdine(mapIdProdottoQuantita, List.of(prodotto)));
     }
 
     @Test
@@ -110,7 +110,7 @@ class ProdottoServiceTest {
         var prodotto = new ProdottoEntity(1, null, null, 10);
         when(repository.saveAllAndFlush(any()))
                 .thenReturn(List.of(prodotto));
-        assertDoesNotThrow(() -> service.readdStock(mapIdProdottoQuantita, List.of(prodotto)));
+        assertDoesNotThrow(() -> service.updateStockAfterOrdine(mapIdProdottoQuantita, List.of(prodotto)));
     }
 
     @Test

@@ -78,7 +78,7 @@ class OrdineServiceTest {
         when(repository.saveAndFlush(any()))
                 .thenReturn(ordine);
         doNothing().when(prodottoService)
-                .readdStock(anyMap(), anyList());
+                .updateStockAfterOrdine(anyMap(), anyList());
         assertDoesNotThrow(() -> service.insertOrdine(1, ordineDTO));
     }
 

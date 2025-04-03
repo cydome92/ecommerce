@@ -71,7 +71,7 @@ public class OrdineService {
                 .collect(Collectors.toList());
         ordine.setProdotti(ordineProdotti);
         OrdineEntity saved = ordineRepository.saveAndFlush(ordine);
-        prodottoService.readdStock(mapIdProdottoQuantitaScelta, prodotti);
+        prodottoService.updateStockAfterOrdine(mapIdProdottoQuantitaScelta, prodotti);
         return saved.toDto();
     }
 
