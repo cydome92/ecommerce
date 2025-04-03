@@ -48,11 +48,13 @@ public class ProdottoService {
             entity.setCodice(body.codice());
             ExampleMatcher matcher = ExampleMatcher.matchingAll()
                     .withIgnoreNullValues()
+                    .withIgnorePaths("stock")
                     .withIgnoreCase(true)
                     .withMatcher("nome", ExampleMatcher.GenericPropertyMatchers.contains())
                     .withMatcher("codice", ExampleMatcher.GenericPropertyMatchers.contains());
             example = Example.of(entity, matcher);
         }
+        var all = repository.findAll();
         return PaginationUtils.searchFromRepository(example, pageRequest, repository, ProdottoEntity::toDto, Sort.Direction.ASC, "nome", "codice");
     }
 

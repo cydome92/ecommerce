@@ -47,7 +47,7 @@ class ClienteControllerTest {
     }
 
     @Test
-    void insertCliente_returnsNotFound() throws Exception {
+    void insertCliente_returnsConflict() throws Exception {
         doThrow(ClienteExistsException.class)
                 .when(clienteService)
                 .insertCliente(any());
