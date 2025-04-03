@@ -51,7 +51,7 @@ public class ClienteService {
         return PaginationUtils.searchFromRepository(example, pageRequest, repository, ClienteEntity::toDto, Sort.Direction.ASC, "cognome", "codiceFiscale");
     }
 
-    protected ClienteEntity getClienteById(int id) {
+    public ClienteEntity getClienteById(int id) {
         return repository.findById(id)
                 .orElseThrow(ClienteNotFoundException::new);
     }

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class ProdottoService {
         return PaginationUtils.searchFromRepository(example, pageRequest, repository, ProdottoEntity::toDto, Sort.Direction.ASC, "nome", "codice");
     }
 
-    protected List<ProdottoEntity> getProdottiByIds(Set<Integer> ids) {
+    public List<ProdottoEntity> getProdottiByIds(Set<Integer> ids) {
         assert !ids.isEmpty();
         List<ProdottoEntity> prodotti = repository.findAllById(ids);
         if (ids.size() != prodotti.size())
@@ -63,7 +64,8 @@ public class ProdottoService {
         return prodotti;
     }
 
-    protected void updateStock(Map<Integer, Integer> mapIdProdottoQuantitaScelta, List<ProdottoEntity> prodotti) {
+    @Transactional
+    public void updateStock(Map<Integer, Integer> mapIdProdottoQuantitaScelta, List<ProdottoEntity> prodotti) {
         for (ProdottoEntity p : prodotti) {
             int stock = p.getStock();
             int bought = mapIdProdottoQuantitaScelta.get(p.getId());

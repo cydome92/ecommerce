@@ -14,6 +14,7 @@ import dev.domenicozagaria.ecommerce.exception.OrdineStatoConsegnatoException;
 import dev.domenicozagaria.ecommerce.exception.QuantitaExceedStockException;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedModel;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OrdineService {
 
     private final OrdineRepository ordineRepository;
@@ -97,8 +99,9 @@ public class OrdineService {
     public void deleteOrdine(int ordineId) {
         OrdineEntity ordine = ordineRepository.findById(ordineId)
                 .orElseThrow(OrdineNotFoundException::new);
-        if (ordine.getStatoOrdine().equals(StatoOrdine.CONSEGNATO))
+        if (ordine.getStatoOrdine().equals(StatoOrdine.CONSEGNATO)) //lascio possibilità di tornare indietro, eventualmente rimettendola null
             throw new OrdineStatoConsegnatoException();
+        log.info("deleting ordine: {}", ordine);
         ordineRepository.deleteById(ordineId);
     }
 

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record OrdineDTO(
-        int id,
+        Integer id,
         StatoOrdine statoOrdine,
         @NotNull ClienteDTO cliente,
         @NotEmpty List<ProdottoDTO> prodotti,

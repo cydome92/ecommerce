@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record ClienteDTO(
-        int id,
+        Integer id,
         @Size(min = 16, max = 16) String codiceFiscale,
         String nome,
         String cognome,
