@@ -36,7 +36,7 @@ public class OrdineEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
     @CreationTimestamp(source = SourceType.VM)
     private LocalDateTime dataOraInserimento;
     private LocalDateTime dataOraConsegna;

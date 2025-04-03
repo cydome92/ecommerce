@@ -16,6 +16,7 @@ import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Service;
@@ -70,14 +71,15 @@ public class OrdineService {
                 .collect(Collectors.toList());
         ordine.setProdotti(ordineProdotti);
         OrdineEntity saved = ordineRepository.saveAndFlush(ordine);
-        prodottoService.updateStock(mapIdProdottoQuantitaScelta, prodotti);
+        prodottoService.readdStock(mapIdProdottoQuantitaScelta, prodotti);
         return saved.toDto();
     }
 
     public PagedModel<OrdineDTO> searchOrdiniByClienteExample(@Nullable ClienteDTO body, Pageable pageable) {
         Page<OrdineEntity> ordini = null;
         if (body != null) {
-            Set<Integer> clientiIds = clienteService.searchCliente(body, pageable).getContent().stream()
+            Pageable clientiPageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
+            Set<Integer> clientiIds = clienteService.searchCliente(body, clientiPageRequest).getContent().stream()
                     .map(ClienteDTO::id)
                     .collect(Collectors.toSet());
             ordini = ordineRepository.findAllByClienteIdIn(clientiIds, pageable);
@@ -96,11 +98,20 @@ public class OrdineService {
         ordineRepository.save(ordine);
     }
 
+    @Transactional
     public void deleteOrdine(int ordineId) {
         OrdineEntity ordine = ordineRepository.findById(ordineId)
                 .orElseThrow(OrdineNotFoundException::new);
-        if (ordine.getStatoOrdine().equals(StatoOrdine.CONSEGNATO)) //lascio possibilità di tornare indietro, eventualmente rimettendola null
+        if (ordine.getStatoOrdine().equals(StatoOrdine.CONSEGNATO))
             throw new OrdineStatoConsegnatoException();
+        else {
+            for (OrdineProdottoEntity prodotto : ordine.getProdotti()) {
+                ProdottoEntity p = prodotto.getProdotto();
+                int bought = prodotto.getQuantita();
+                //TODO modificare unit test
+                prodottoService.reAddStock(p.getId(), bought);
+            }
+        }
         log.info("deleting ordine: {}", ordine);
         ordineRepository.deleteById(ordineId);
     }

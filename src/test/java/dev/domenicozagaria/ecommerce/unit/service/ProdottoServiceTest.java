@@ -26,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -100,7 +99,7 @@ class ProdottoServiceTest {
     void updateStock_quantitaExceedsStockThrowsError() {
         Map<Integer, Integer> mapIdProdottoQuantita = Map.of(1, 10);
         var prodotto = new ProdottoEntity(1, null, null, 9);
-        assertThrows(QuantitaExceedStockException.class, () -> service.updateStock(mapIdProdottoQuantita, List.of(prodotto)));
+        assertThrows(QuantitaExceedStockException.class, () -> service.readdStock(mapIdProdottoQuantita, List.of(prodotto)));
     }
 
     @Test
@@ -109,7 +108,7 @@ class ProdottoServiceTest {
         var prodotto = new ProdottoEntity(1, null, null, 10);
         when(repository.saveAllAndFlush(any()))
                 .thenReturn(List.of(prodotto));
-        assertDoesNotThrow(() -> service.updateStock(mapIdProdottoQuantita, List.of(prodotto)));
+        assertDoesNotThrow(() -> service.readdStock(mapIdProdottoQuantita, List.of(prodotto)));
     }
 
 }

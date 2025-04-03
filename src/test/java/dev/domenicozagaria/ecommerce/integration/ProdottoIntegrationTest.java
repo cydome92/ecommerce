@@ -79,7 +79,6 @@ public class ProdottoIntegrationTest {
                         .queryParam("sort", "codice,asc"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").isNotEmpty());
-        //FIXME qualcosa non va qui
     }
 
 }

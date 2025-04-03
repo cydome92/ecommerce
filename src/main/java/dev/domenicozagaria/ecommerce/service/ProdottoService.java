@@ -6,6 +6,7 @@ import dev.domenicozagaria.ecommerce.dao.repository.ProdottoRepository;
 import dev.domenicozagaria.ecommerce.exception.CodiceProdottoExistsException;
 import dev.domenicozagaria.ecommerce.exception.ProdottoNotFoundException;
 import dev.domenicozagaria.ecommerce.exception.QuantitaExceedStockException;
+import dev.domenicozagaria.ecommerce.exception.StockNonValidoException;
 import dev.domenicozagaria.ecommerce.service.utils.PaginationUtils;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
@@ -48,13 +49,12 @@ public class ProdottoService {
             entity.setCodice(body.codice());
             ExampleMatcher matcher = ExampleMatcher.matchingAll()
                     .withIgnoreNullValues()
-                    .withIgnorePaths("stock")
+                    .withIgnorePaths("stock", "id")
                     .withIgnoreCase(true)
                     .withMatcher("nome", ExampleMatcher.GenericPropertyMatchers.contains())
                     .withMatcher("codice", ExampleMatcher.GenericPropertyMatchers.contains());
             example = Example.of(entity, matcher);
         }
-        var all = repository.findAll();
         return PaginationUtils.searchFromRepository(example, pageRequest, repository, ProdottoEntity::toDto, Sort.Direction.ASC, "nome", "codice");
     }
 
@@ -67,7 +67,7 @@ public class ProdottoService {
     }
 
     @Transactional
-    public void updateStock(Map<Integer, Integer> mapIdProdottoQuantitaScelta, List<ProdottoEntity> prodotti) {
+    public void readdStock(Map<Integer, Integer> mapIdProdottoQuantitaScelta, List<ProdottoEntity> prodotti) {
         for (ProdottoEntity p : prodotti) {
             int stock = p.getStock();
             int bought = mapIdProdottoQuantitaScelta.get(p.getId());
@@ -76,6 +76,16 @@ public class ProdottoService {
             p.setStock(stock - bought);
         }
         repository.saveAllAndFlush(prodotti);
+    }
+
+    public void reAddStock(int prodottoId, int toAdd) {
+        ProdottoEntity entity = repository.findById(prodottoId)
+                .orElseThrow(ProdottoNotFoundException::new);
+        int savedStock = entity.getStock();
+        if (savedStock + toAdd < 0)
+            throw new StockNonValidoException();
+        entity.setStock(savedStock + toAdd);
+        repository.save(entity);
     }
 
 }

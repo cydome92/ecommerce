@@ -19,8 +19,8 @@ import lombok.ToString;
 public class OrdineProdottoId {
 
     @JoinColumn(name = "id_ordine")
-    private int idOrdine;
+    private Integer idOrdine;
     @JoinColumn(name = "id_prodotto")
-    private int idProdotto;
+    private Integer idProdotto;
 
 }
