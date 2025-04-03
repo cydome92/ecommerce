@@ -9,6 +9,7 @@ import dev.domenicozagaria.ecommerce.exception.QuantitaExceedStockException;
 import dev.domenicozagaria.ecommerce.exception.StockNonValidoException;
 import dev.domenicozagaria.ecommerce.service.utils.PaginationUtils;
 import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -78,7 +79,7 @@ public class ProdottoService {
         repository.saveAllAndFlush(prodotti);
     }
 
-    public void reAddStock(int prodottoId, int toAdd) {
+    public void reAddStock(int prodottoId, @PositiveOrZero int toAdd) {
         ProdottoEntity entity = repository.findById(prodottoId)
                 .orElseThrow(ProdottoNotFoundException::new);
         int savedStock = entity.getStock();

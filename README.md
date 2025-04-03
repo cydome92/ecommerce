@@ -1,4 +1,8 @@
 # ECOMMERCE 4 EURIS
+Qualche numero:
+* **Spring Boot**: versione 3.4.4
+* **JDK**: versione 21
+* **MySQL**: versione 8.4
 
 ## Requisiti
 

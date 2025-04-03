@@ -108,7 +108,6 @@ public class OrdineService {
             for (OrdineProdottoEntity prodotto : ordine.getProdotti()) {
                 ProdottoEntity p = prodotto.getProdotto();
                 int bought = prodotto.getQuantita();
-                //TODO modificare unit test
                 prodottoService.reAddStock(p.getId(), bought);
             }
         }

@@ -142,8 +142,10 @@ class OrdineServiceTest {
         var rs = new OrdineEntity(1, LocalDateTime.now(), null, StatoOrdine.ORDINATO, cliente, List.of());
         when(repository.findById(anyInt()))
                 .thenReturn(Optional.of(rs));
+        doNothing().when(prodottoService)
+                .reAddStock(anyInt(), anyInt());
         doNothing().when(repository)
-                        .deleteById(anyInt());
+                .deleteById(anyInt());
         assertDoesNotThrow(() -> service.deleteOrdine(1));
     }
 

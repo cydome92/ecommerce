@@ -6,6 +6,7 @@ import dev.domenicozagaria.ecommerce.dao.repository.ProdottoRepository;
 import dev.domenicozagaria.ecommerce.exception.CodiceProdottoExistsException;
 import dev.domenicozagaria.ecommerce.exception.ProdottoNotFoundException;
 import dev.domenicozagaria.ecommerce.exception.QuantitaExceedStockException;
+import dev.domenicozagaria.ecommerce.exception.StockNonValidoException;
 import dev.domenicozagaria.ecommerce.service.ProdottoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -109,6 +111,24 @@ class ProdottoServiceTest {
         when(repository.saveAllAndFlush(any()))
                 .thenReturn(List.of(prodotto));
         assertDoesNotThrow(() -> service.readdStock(mapIdProdottoQuantita, List.of(prodotto)));
+    }
+
+    @Test
+    void reAddStock_stockNonValidoThrowsException() {
+        var prodotto = new ProdottoEntity(1, null, null, 9);
+        when(repository.findById(anyInt()))
+                .thenReturn(Optional.of(prodotto));
+        assertThrows(StockNonValidoException.class, () -> service.reAddStock(1, -(prodotto.getStock() + 1)));
+    }
+
+    @Test
+    void reAddStock_success() {
+        var prodotto = new ProdottoEntity(1, null, null, 9);
+        when(repository.findById(anyInt()))
+                .thenReturn(Optional.of(prodotto));
+        when(repository.save(any()))
+                .thenReturn(mock(ProdottoEntity.class));
+        assertDoesNotThrow(() -> service.reAddStock(1, 1));
     }
 
 }
