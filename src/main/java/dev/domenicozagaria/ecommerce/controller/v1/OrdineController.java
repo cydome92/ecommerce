@@ -6,7 +6,6 @@ import dev.domenicozagaria.ecommerce.dao.enumeration.StatoOrdine;
 import dev.domenicozagaria.ecommerce.service.OrdineService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
@@ -27,9 +26,9 @@ public class OrdineController {
 
     private final OrdineService ordineService;
 
-    @PostMapping("clienti/{clienteId}")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrdineDTO insertOrdine(@PathVariable int clienteId, @RequestBody @Valid OrdineDTO body) {
+    public OrdineDTO insertOrdine(@RequestParam int clienteId, @RequestBody @Valid OrdineDTO body) {
         return ordineService.insertOrdine(clienteId, body);
     }
 
